@@ -16,3 +16,11 @@
 
 - service: name=elasticsearch state=started enabled=yes
   tags: [elasticsearch]
+
+- name: Make monit to look after elasticsearch
+  template:
+    src=elasticsearch.monitrc.conf.j2
+    dest=/etc/monit/conf.d/elasticsearch
+    owner=root group=root mode=644
+  when: elasticsearch_monit
+  notify: restart monit
